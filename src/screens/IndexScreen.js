@@ -8,16 +8,14 @@ const IndexScreen = () => {
   return (
     <View>
       <Text> Index Screen</Text>
+      <Button title="Add" onPress={() => addBlogPost()} />
       <FlatList
         data={data}
-        keyExtractor={(blogPost) => {
-          blogPost.title;
-        }}
+        keyExtractor={(blogPost) => blogPost.title}
         renderItem={({ item }) => {
           return <Text>{item.title}</Text>;
         }}
       />
-      <Button title="Add" onPress={addBlogPost} />
     </View>
   );
 };
