@@ -7,9 +7,18 @@ const blogReducer = (state, action) => {
         ...state,
         {
           id: Math.floor(Math.random() * 9999),
-          title: `BlogPost #${state.length + 1}`,
+          title: action.payload.title,
+          content: action.payload.content,
         },
       ];
+    case "edit_blogpost":
+      return state
+        .filter((blogpost) => blogpost.id !== action.payload.id)
+        .concat({
+          id: action.payload.id,
+          title: action.payload.title,
+          content: action.payload.content,
+        });
     case "delete_blogpost":
       return state.filter((blogpost) => blogpost.id !== action.payload);
     default:
@@ -18,8 +27,9 @@ const blogReducer = (state, action) => {
 };
 
 const addBlogPost = (dispatch) => {
-  return () => {
-    dispatch({ type: "add_blogpost" });
+  return (title, content, callback) => {
+    dispatch({ type: "add_blogpost", payload: { title, content } });
+    callback();
   };
 };
 
@@ -29,8 +39,22 @@ const deleteBlogPost = (dispatch) => {
   };
 };
 
+const editBlogPost = (dispatch) => {
+  return (id, title, content, callback) => {
+    dispatch({ type: "edit_blogpost", payload: { id, title, content } });
+    callback();
+  };
+};
+
 export const { Context, Provider } = createDataContext(
   blogReducer,
-  { addBlogPost, deleteBlogPost },
-  []
+  { addBlogPost, deleteBlogPost, editBlogPost },
+  [
+    { title: "TEST POST #1", content: "TEST CONTENT #1", id: "1" },
+    { title: "TEST POST #2", content: "TEST CONTENT #2", id: "2" },
+    { title: "TEST POST #3", content: "TEST CONTENT #3", id: "3" },
+    { title: "TEST POST #4", content: "TEST CONTENT #4", id: "4" },
+    { title: "TEST POST #5", content: "TEST CONTENT #5", id: "5" },
+    { title: "TEST POST #6", content: "TEST CONTENT #6", id: "6" },
+  ]
 );
