@@ -20,7 +20,7 @@
     },
     "android": {
       "package": "com.mertselimb.blog",
-      "versionCode": 1
+      "versionCode": 2
     }
   }
 }
